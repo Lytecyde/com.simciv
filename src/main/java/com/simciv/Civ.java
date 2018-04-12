@@ -4,8 +4,6 @@ import com.simciv.Screens.GamePlay.GameMap;
 import com.simciv.Screens.GamePlay.GameMenuBar;
 import com.simciv.Screens.GamePlay.SideBoard;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -60,32 +58,28 @@ public class Civ extends Application {
 
         Button play = new Button();
         play.setText("Play");
-        play.setOnAction(new EventHandler<ActionEvent>() {
+        play.setOnAction(event -> {
+            if(name.getText().equals(""))return;
+            playerName[0] = name.getText();
+            if(lastName.getText().equals(""))return;
+            playerName[1] = lastName.getText();
 
-            @Override
-            public void handle(ActionEvent event) {
-                if(name.getText().equals(""))return;
-                playerName[0] = name.getText();
-                if(lastName.getText().equals(""))return;
-                playerName[1] = lastName.getText();
+            mapSizeLevel = mapSize.getValue();
+            GameStats.save(playerName, mapSizeLevel);
+            grid.getChildren().removeAll(name,lastName, play);
+            visibleMap.make();
 
-                mapSizeLevel = mapSize.getValue();
+            GameMenuBar menubar = new GameMenuBar();
+            borderPane.setTop(menubar.getMenuBar());
+            borderPane.setCenter(visibleMap.getMap());
+            borderPane.setRight(new SideBoard());
+            Scene scene = new Scene(borderPane);
 
-                grid.getChildren().removeAll(name,lastName, play);
-                visibleMap.make();
-
-                GameMenuBar menubar = new GameMenuBar();
-                borderPane.setTop(menubar.getMenuBar());
-                borderPane.setCenter(visibleMap.getMap());
-                borderPane.setRight(new SideBoard());
-                Scene scene = new Scene(borderPane);
-
-                primaryStage.setMinWidth(100);
-                primaryStage.setMinHeight(100);
-                primaryStage.setScene(scene);
-                primaryStage.setTitle("SimpleCivilization");
-                primaryStage.show();
-            }
+            primaryStage.setMinWidth(100);
+            primaryStage.setMinHeight(100);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("SimpleCivilization:"+GameStats.playerName[1]);
+            primaryStage.show();
         });
         GridPane.setConstraints(play, 1, 3);
         grid.getChildren().add(play);

@@ -5,7 +5,7 @@ import javafx.scene.text.TextAlignment;
 
 
 public class GameMap extends GridPane {
-    Tile tile = new Tile();
+    private Tile tile = new Tile(20);
 
     public void make() {
         this.setMaxSize(600,400);
