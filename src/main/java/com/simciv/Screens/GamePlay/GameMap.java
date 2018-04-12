@@ -8,8 +8,8 @@ import javafx.scene.text.TextAlignment;
 
 
 public class GameMap extends GridPane {
-    double layoutX = 20;
-    double layoutY = 20;
+    double height = 20;
+    double width = 20;
     public Label tile = new Label("+");
 
     public void make() {
@@ -17,8 +17,8 @@ public class GameMap extends GridPane {
         this.setMaxSize(600,400);
         this.setMinSize(600,400);
 
-        tile.setMinSize(layoutX, layoutY);
-        tile.setMaxSize(layoutX, layoutY);
+        tile.setMinSize(width, height);
+        tile.setMaxSize(width, height);
         tile.setTextAlignment(TextAlignment.JUSTIFY);
         this.setConstraints(tile, 0, 0);
         this.getChildren().add(tile);
