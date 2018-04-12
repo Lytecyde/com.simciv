@@ -83,13 +83,13 @@ public class Civ extends Application {
                 primaryStage.setMinWidth(100);
                 primaryStage.setMinHeight(100);
                 primaryStage.setScene(scene);
+                primaryStage.setTitle("SimpleCivilization");
                 primaryStage.show();
             }
         });
-
         GridPane.setConstraints(play, 1, 3);
-
         grid.getChildren().add(play);
+
         primaryStage.setScene(new Scene(grid, 640, 480));
         primaryStage.show();
     }
