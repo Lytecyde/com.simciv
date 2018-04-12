@@ -1,5 +1,6 @@
 package com.simciv;
 
+import com.simciv.Screens.GamePlay.GameMap;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 
@@ -18,10 +18,9 @@ public class Civ extends Application {
         launch(args);
     }
 
-
-
     @Override
     public void start(Stage primaryStage) {
+        GameMap visibleMap = new GameMap();
         primaryStage.setTitle("Init");
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10,
@@ -30,7 +29,6 @@ public class Civ extends Application {
                 10));
         grid.setVgap(5);
         grid.setHgap(5);
-
         final TextField name = new TextField();
         name.setPromptText("Enter your first name.");
         name.setPrefColumnCount(10);
@@ -43,7 +41,7 @@ public class Civ extends Application {
         grid.getChildren().add(lastName);
 
         Button btn = new Button();
-        btn.setText("Keep a record");
+        btn.setText("Save");
         btn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -51,6 +49,10 @@ public class Civ extends Application {
                 //record name
                 playerName[0] = name.getText();
                 playerName[1] = lastName.getText();
+                grid.getChildren().removeAll(name,lastName, btn);
+                visibleMap.make();
+                primaryStage.setScene(new Scene(visibleMap.getMap(), 640, 480));
+                primaryStage.show();
             }
         });
 
