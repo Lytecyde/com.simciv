@@ -1,23 +1,40 @@
 package com.simciv.Screens.GamePlay;
 
+import com.simciv.Graphics.Colors;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.TextAlignment;
 
 
 public class GameMap extends GridPane {
-    private Tile tile = new Tile(20);
+    private int maxX = 15;
+    private int maxY = 12;
+    private Tile[][] visiblegrid = new Tile[maxX][maxY];
 
     public void make() {
         this.setMaxSize(600,400);
-        this.setMinSize(600,400);
-
-        tile.label.setMinSize(tile.width, tile.height);
-        tile.label.setMaxSize(tile.width, tile.height);
-        tile.label.setTextAlignment(TextAlignment.JUSTIFY);
-        setConstraints(tile.label, 0, 0);
-        this.getChildren().add(tile.label);
+        init();
+        makeGrid();
     }
 
+    private void makeGrid() {
+        for(int x = 0; x < maxX ; x++ ){
+            for (int y = 0; y < maxY ; y++) {
+                Label tile = visiblegrid[x][y].label;
+                tile.setStyle(Colors.incognita);
+                tile.setMinSize(35,35);
+                setConstraints(tile, x, y);
+                getChildren().add(tile);
+            }
+        }
+    }
+
+    private void init() {
+        for(int x = 0; x < maxX ; x++ ){
+            for (int y = 0; y < maxY ; y++) {
+                visiblegrid[x][y] = new Tile(1);
+            }
+        }
+    }
     public GridPane getMap(){
         return this;
     }
