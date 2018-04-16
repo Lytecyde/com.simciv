@@ -41,8 +41,10 @@ public class GameMap extends GridPane {
     }
 
     public Coordinates getNewFocus(Coordinates f) {
-        int x = (f.x + dx) % 15;
-        int y = (f.y + dy) % 12;
+        int x = (f.x + dx) >= 15 ? 14 :
+                (f.x + dx) < 0 ? 0 : (f.x + dx) ;
+        int y = (f.y + dy) >= 12 ? 11 :
+                (f.y + dy) < 0 ? 0 : (f.y + dy);
         reset();
         return new Coordinates (x, y);
     }
@@ -128,10 +130,11 @@ public class GameMap extends GridPane {
     }
 
     public void moveFocusTile(Coordinates oldFocus,Coordinates newFocus) {
+        visiblegrid[oldFocus.x][oldFocus.y].label.setStyle(
+            colorMap[oldFocus.x][oldFocus.y] + "-fx-border-color: transparent;");
         visiblegrid[newFocus.x][newFocus.y].label.setStyle(
                 colorMap[newFocus.x][newFocus.y] + "-fx-border-color: white;");
-        visiblegrid[oldFocus.x][oldFocus.y].label.setStyle(
-                colorMap[oldFocus.x][oldFocus.y] + "-fx-border-color: transparent;");
+
         focus = newFocus;
     }
 
@@ -150,9 +153,6 @@ public class GameMap extends GridPane {
     public String[][] getColorMap() {
         return colorMap;
     }
-
-
-
 
     private void reset() {
         dx = 0;
