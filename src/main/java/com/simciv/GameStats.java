@@ -6,11 +6,33 @@ public class GameStats {
     public static int maxX;
     public static int maxY;
     public static int unitsInTotal;
-
+    public static int tileSize = 20;
     public static void save(String[] name , String size){
         playerName[0] = name[0];
         playerName[1] = name[1];
         mapSize = size;
+
+        switch(size) {
+            case "Small":
+                maxX = 50;
+                maxY = 32;
+                break;
+            case "Medium":
+                maxX = 60;
+                maxY = 36;
+                break;
+            case "Large":
+                maxX = 72;
+                maxY = 44;
+                break;
+            case "Huge":
+                maxX = 90;
+                maxY = 52;
+                break;
+            default:
+                maxX = 60;
+                maxY = 36;
+        }
         unitsInTotal = 2;
     }
 }
