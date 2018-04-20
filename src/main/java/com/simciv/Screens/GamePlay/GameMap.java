@@ -143,10 +143,10 @@ public class GameMap extends GridPane {
 
     public Coordinates getNewSelectionStart(Coordinates f) {
         //TODO check where the limit really is
-        int x = (f.x + ds) >= GameStats.maxX - 2*maxX ? GameStats.maxX - 2*maxX - 1 :
+        int x = (f.x + ds) >= GameStats.maxX - maxX -3? GameStats.maxX - maxX - 4 :
                 (f.x + ds) < 7 ? 7 :
                         (f.x + ds);
-        int y = (f.y + dz) >= GameStats.maxY - 2*maxY ? GameStats.maxY - 2*maxY - 1 :
+        int y = (f.y + dz) >= GameStats.maxY - maxY -3 ? GameStats.maxY - maxY - 4 :
                 (f.y + dz) < 5 ? 5 :
                         (f.y + dz);
         ds = 0;
@@ -154,26 +154,7 @@ public class GameMap extends GridPane {
         return new Coordinates(x, y);
     }
 
-    public Coordinates getNextMapStart(Coordinates start) {
-        int y;
-        int x;
-        if (((start.x + ds) >= 7) &&
-                ((start.y + dz) >= 5) &&
-                ((start.x + ds) < limitX) &&
-                ((start.y + dz) < limitY)
-                ) {
-            System.out.println("1 lx: " + limitX + "  ly: " + limitY);
-            x = start.x + ds;
-            y = (start.y + dz);
-        } else {
-            System.out.println("stops moving");
-            y = start.y;
-            x = start.x;
-        }
-        ds = 0;
-        dz = 0;
-        return new Coordinates(x, y);
-    }
+
 
     public void make() {
         setMaxSize(600, 400);
