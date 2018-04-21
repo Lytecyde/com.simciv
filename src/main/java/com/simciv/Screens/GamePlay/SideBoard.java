@@ -31,20 +31,39 @@ public class SideBoard extends GridPane {
         Label happy = new Label("Happiness: ");
         setConstraints(happy,0,3);
         getChildren().add(happy);
-        Label risk = new Label("Risk: ");
-        setConstraints(risk,0,4);
-        getChildren().add(risk);
+        Label year = new Label("Year: ");
+        setConstraints(year,0,4);
+        getChildren().add(year);
         Label line = new Label("______________________");
         setConstraints(line,0,5);
         getChildren().add(line);
-        Label movement = new Label("Movement: ");
-        setConstraints(movement,0,6);
-        getChildren().add(movement);
+        Label xp = new Label("Unit: ");
+        setConstraints(xp,0,6);
+        getChildren().add(xp);
         Label power = new Label("Power: ");
         setConstraints(power,0,7);
         getChildren().add(power);
-        Label xp = new Label("Experience: ");
-        setConstraints(xp,0,8);
-        getChildren().add(xp);
+        Label movement = new Label("Movement: ");
+        setConstraints(movement,0,8);
+        getChildren().add(movement);
+
+        Label line2 = new Label("______________________");
+        setConstraints(line2,0,9);
+        getChildren().add(line2);
+        Label land = new Label("Territory:");
+        setConstraints(land,0,10);
+        getChildren().add(land);
+        Label md = new Label("md:");
+        setConstraints(md,0,11);
+        getChildren().add(md);
+        Label shields = new Label("shields:");
+        setConstraints(shields,0,12);
+        getChildren().add(shields);
+        Label food = new Label("food:");
+        setConstraints(food,0,13);
+        getChildren().add(food);
+        Label gold = new Label("gold:");
+        setConstraints(gold,0,14);
+        getChildren().add(gold);
     }
 }
