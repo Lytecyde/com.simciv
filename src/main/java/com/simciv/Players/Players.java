@@ -1,5 +1,7 @@
 package com.simciv.Players;
 
-public class Players {
+import com.simciv.ID;
 
+public class Players {
+    ID id = new ID();
 }
