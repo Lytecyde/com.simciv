@@ -2,6 +2,7 @@
   {
     "unitType" : "Land",
     "name" : "Settler",
+    "icon" : "👤",
     "status" : "exploring",
     "move" : "1",
     "attack" : "0",
@@ -19,6 +20,7 @@
   {
     "unitType": "Land",
     "name": "Worker",
+    "icon" : "👷",
     "status": "exploring",
     "move": "1",
     "attack": "0",

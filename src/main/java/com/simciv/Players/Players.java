@@ -1,7 +1,8 @@
 package com.simciv.Players;
 
-import com.simciv.ID;
+
+import java.util.LinkedList;
 
 public class Players {
-    ID id = new ID();
+    public LinkedList<Player> list = new LinkedList<>();
 }

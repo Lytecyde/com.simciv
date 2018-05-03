@@ -1,17 +1,30 @@
 package com.simciv;
 
-import com.simciv.Enums.CivilizationType;
+import static com.simciv.GameStats.idCount;
 
 public class ID {
-    CivilizationType civ;
     int code;
     String name;
 
-    public ID(){
-        code = getCodeValue();
+    public ID(String n){
+        setName(n);
+        code = setCodeValue();
     }
 
-    private int getCodeValue(){
-        return GameStats.unitsInTotal;
+    private int setCodeValue(){
+        GameStats.idCount++;
+        return idCount;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    private void setName(String n) {
+        this.name =  n;
+    }
+
+    public String getName() {
+        return name;
     }
 }

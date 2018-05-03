@@ -4,11 +4,15 @@ import com.simciv.Coordinates;
 import com.simciv.GameStats;
 import com.simciv.Graphics.Colors;
 
+import com.simciv.Icons.Icon;
+import com.simciv.Players.Player;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
+import java.util.LinkedList;
 
 public class GameMap extends GridPane {
     private static int maxX = 15;
@@ -32,7 +36,6 @@ public class GameMap extends GridPane {
 
     public GameMap() {
         setFocusTraversable(true);
-        System.out.println("lim" + limitX + "   " + limitY);
         this.setOnKeyPressed(new EventHandler<KeyEvent>() {
             int selectionX;
             int selectionY;
@@ -78,12 +81,10 @@ public class GameMap extends GridPane {
                 Coordinates newFocus = GameMap.this.getNewFocus(focus);
                 if (cursorMove) {
                     GameMap.this.moveFocusTile(focus, newFocus);
-                    GameMap.this.setFocusTile();
+                    GameMap.this.setFocusTile(focus);
                 } else {
                     selectionX = start.x;
                     selectionY = start.y;
-
-                    System.out.println(selectionX + " , " + selectionY);
 
                     if (isWithinBounds(selectionX, selectionY)) {
                         System.out.println("in bounds");
@@ -91,7 +92,8 @@ public class GameMap extends GridPane {
                         GameMap.this.setVisibleMapSelection(start);
                         GameMap.this.init();
                         GameMap.this.makeGrid();
-                        GameMap.this.setFocusTile();
+                        GameMap.this.showWorldMap();//
+                        GameMap.this.setFocusTile(start);
                     } else {
                         System.out.println("outside" +
                                 selectionX +
@@ -106,8 +108,13 @@ public class GameMap extends GridPane {
                         GameMap.this.makeGrid();
                     }
                 }
+                GameMap.this.setReturnFocuseable();
             }
         });
+    }
+
+    public void setReturnFocuseable() {
+        setFocusTraversable(true);
     }
 
     private boolean isWithinBounds(int selectionX, int selectionY) {
@@ -137,7 +144,7 @@ public class GameMap extends GridPane {
     }
 
     public Coordinates getNewSelectionStart(Coordinates f) {
-        //TODO check where the limit really is
+        //TODO check where the limit really is ie why 3
         int x = (f.x + ds) >= GameStats.maxX - maxX - 3 ? GameStats.maxX - maxX - 4 :
                 (f.x + ds) < 7 ? 7 :
                         (f.x + ds);
@@ -153,13 +160,13 @@ public class GameMap extends GridPane {
         setMaxSize(600, 400);
 
         worldMap = initWorldMap();
-        makeWorldMap(worldMap);
+        worldMap = makeWorldMap();
 
         setVisibleMapSelection(focus);
 
         init();
-        makeGrid();
-        setFocusTile();
+        showWorldMap();
+        setFocusTile(CENTER);
     }
 
     private Tile[][] initWorldMap() {
@@ -172,23 +179,49 @@ public class GameMap extends GridPane {
         return worldMap;
     }
 
-    private Tile[][] makeWorldMap(Tile[][] worldMap) {
+    private Tile[][] makeWorldMap() {
         visibleMap = makeVisibleMap();
+        String[][] unitsMap = makeUnitsMap();
         for (int x = 0; x < GameStats.maxX; x++) {
             for (int y = 0; y < GameStats.maxY; y++) {
                 Label tile = worldMap[x][y].label;
-                tile.setStyle(visibleMap[x][y]);
                 tile.setMinSize(tileSize, tileSize);
+                tile.setStyle(visibleMap[x][y]);
+                tile.setTextFill(Color.BLACK);
+                tile.setText(unitsMap[x][y]);
                 worldMap[x][y].label = tile;
             }
         }
         return worldMap;
     }
 
+    private String[][] makeUnitsMap() {
+        String[][] units = initUnitsMap();
+        GameStats.makePlayers();
+        LinkedList<Player> list = new LinkedList<>();
+        for (int i = 0; i < GameStats.players.list.size(); i++) {
+            list.add(GameStats.players.list.get(i));
+        }
+
+        for (Player p : list) {
+            units[p.startLocation.x][p.startLocation.y] = Icon.unit[0];
+        }
+        return units;
+    }
+
+    private String[][] initUnitsMap() {
+        String[][] units = new String[GameStats.maxX][GameStats.maxY];
+        for (int x = 0; x < GameStats.maxX; x++) {
+            for (int y = 0; y < GameStats.maxY; y++) {
+                units[x][y] = " ";
+            }
+        }
+        return units;
+    }
+
     private String[][] makeVisibleMap() {
         for (int x = 0; x < GameStats.maxX; x++) {
             for (int y = 0; y < GameStats.maxY; y++) {
-                System.out.println(getRandomLandIndex());
                 visibleMap[x][y] = Colors.lands[getRandomLandIndex()];
             }
         }
@@ -197,7 +230,6 @@ public class GameMap extends GridPane {
 
     private int getRandomLandIndex() {
         int r = (int) Math.floor(Math.random() * (Colors.lands.length - 2)) + 2;
-        System.out.println(r);
         return r;
     }
 
@@ -241,10 +273,18 @@ public class GameMap extends GridPane {
         }
     }
 
-    private void setFocusTile() {
-        int x = CENTER.x;
-        int y = CENTER.y;
-        visiblegrid[x][y].label.setStyle(colorMapSelection[x][y] + "-fx-border-color: white;");
+    private void showWorldMap() {
+        for (int x = 0; x < maxX; x++) {
+            for (int y = 0; y < maxY; y++) {
+                Label tile = worldMap[start.x + x][start.y + y].label;
+                setConstraints(tile, x, y);
+                getChildren().add(tile);
+            }
+        }
+    }
+
+    private void setFocusTile(Coordinates c) {
+        visiblegrid[c.x][c.y].label.setStyle(colorMapSelection[c.x][c.y] + "-fx-border-color: white;");
     }
 
     public void moveFocusTile(Coordinates oldFocus, Coordinates newFocus) {

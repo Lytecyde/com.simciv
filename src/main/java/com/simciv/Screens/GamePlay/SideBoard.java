@@ -1,10 +1,14 @@
 package com.simciv.Screens.GamePlay;
 
 import com.simciv.GameStats;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+
 import static com.simciv.GameStats.mapSize;
 
 public class SideBoard extends GridPane {
@@ -65,5 +69,15 @@ public class SideBoard extends GridPane {
         Label gold = new Label("gold:");
         setConstraints(gold,0,14);
         getChildren().add(gold);
+        Button next = new Button("Next turn");
+        next.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                year.setText("Year:" + GameStats.time++);
+            }
+        });
+        next.setFocusTraversable(false);
+        setConstraints(next,0,15);
+        getChildren().add(next);
+
     }
 }

@@ -1,0 +1,11 @@
+[
+  {
+     "name" : "China",
+     "startingTech" : ["Irrigation", "Mining"],
+     "leader" : "Taizong"
+  },{
+    "name" : "India",
+    "startingTech" : ["Irrigation", "Mining"],
+    "leader" : "Gandhi"
+  }
+]

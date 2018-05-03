@@ -1,5 +1,8 @@
 package com.simciv;
 
+import com.simciv.Players.Player;
+import com.simciv.Players.Players;
+
 public class GameStats {
     public static String mapSize;
     public static String[] playerName = new String[2];
@@ -7,7 +10,18 @@ public class GameStats {
     public static int maxY;
     public static int unitsInTotal;
     public static int tileSize = 20;
-    public static void save(String[] name , String size){
+    public static int time = -4020;
+    public static Players players = new Players();
+
+    public static int idCount;
+
+    public static Players makePlayers() {
+        Player p =  new Player();
+        players.list.add(p);
+        return players;
+    }
+
+    public static void saveInit(String[] name , String size){
         playerName[0] = name[0];
         playerName[1] = name[1];
         mapSize = size;
