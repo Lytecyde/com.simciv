@@ -3,10 +3,12 @@ package com.simciv.Data.Civilizations;
 import com.simciv.Coordinates;
 import com.simciv.GameStats;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class Create {
-    LinkedList<Coordinates> allSpots = new LinkedList<>();
+    LinkedList<Coordinates> allSpots;
     public Create() {
         allSpots = createStartingSpots();
     }
@@ -14,21 +16,33 @@ public class Create {
     public LinkedList<Coordinates> createStartingSpots() {
         Coordinates c;
         LinkedList<Coordinates> allNationsStartingSpots =  new LinkedList<>();
-        do{
-            c = new Coordinates((int)(Math.random() * GameStats.maxX), (int)(Math.random() * GameStats.maxY));
-            allNationsStartingSpots.add(c);
-        }while(!among(allNationsStartingSpots, c));
+        ArrayList numbersX = new ArrayList();
+        ArrayList numbersY = new ArrayList();
+        for(int i = 0; i < GameStats.maxX; i++)
+        {
+            numbersX.add(i);
+        }
+        for(int i = 0; i < GameStats.maxY; i++)
+        {
+            numbersY.add(i);
+        }
+
+        Collections.shuffle(numbersX);
+        Collections.shuffle(numbersY);
+
+
+
+        System.out.print("This week's civilization locations are: ");
+
+        for(int j = 0; j < GameStats.playerCount; j++)
+        {
+            System.out.print(numbersX.get(j) + " " + numbersY.get(j));
+            System.out.println("civ" + j);
+        }
         return allNationsStartingSpots;
     }
 
-    private boolean among(LinkedList<Coordinates> allNationsStartingSpots, Coordinates c) {
-        for (Coordinates spot: allNationsStartingSpots) {
-            if (spot.equals(c)){
-                return false;
-            }
-        }
-        return true;
-    }
+
 
     public LinkedList<Coordinates> getSpots() {
         return allSpots;

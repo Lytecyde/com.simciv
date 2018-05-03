@@ -1,6 +1,18 @@
 package com.simciv.Data;
 
-public class DataManager {
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
+
+public class Manager {
     static Gson gson = new Gson();
     ClassLoader classLoader = getClass().getClassLoader();
     File fileUnits = new File(classLoader.getResource("Units.json").getFile());

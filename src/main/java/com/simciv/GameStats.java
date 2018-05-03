@@ -11,6 +11,7 @@ public class GameStats {
     public static int unitsInTotal;
     public static int tileSize = 20;
     public static int time = -4020;
+    public static int playerCount = 2;
     public static Players players = new Players();
 
     public static int idCount;
