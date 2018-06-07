@@ -22,6 +22,7 @@ public class Create {
         {
             numbersX.add(i);
         }
+
         for(int i = 0; i < GameStats.maxY; i++)
         {
             numbersY.add(i);
@@ -30,21 +31,24 @@ public class Create {
         Collections.shuffle(numbersX);
         Collections.shuffle(numbersY);
 
-
-
-        System.out.print("This week's civilization locations are: ");
+        System.out.print("This game's civilization locations are: ");
 
         for(int j = 0; j < GameStats.playerCount; j++)
         {
             System.out.print(numbersX.get(j) + " " + numbersY.get(j));
             System.out.println("civ" + j);
+            Coordinates coordinates = new Coordinates((int)numbersX.get(j), (int)numbersY.get(j));
+            allNationsStartingSpots.add(coordinates);
         }
+
+
         return allNationsStartingSpots;
     }
 
 
 
     public LinkedList<Coordinates> getSpots() {
+        System.out.println("getSpots reached");
         return allSpots;
     }
 

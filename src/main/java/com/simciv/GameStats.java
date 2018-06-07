@@ -1,26 +1,17 @@
 package com.simciv;
 
-import com.simciv.Players.Player;
-import com.simciv.Players.Players;
-
 public class GameStats {
     public static String mapSize;
     public static String[] playerName = new String[2];
     public static int maxX;
     public static int maxY;
     public static int unitsInTotal;
-    public static int tileSize = 20;
+    public final static int tileSize = 20;
     public static int time = -4020;
     public static int playerCount = 2;
-    public static Players players = new Players();
-
+    //public static Players players = new Players();
     public static int idCount;
-
-    public static Players makePlayers() {
-        Player p =  new Player();
-        players.list.add(p);
-        return players;
-    }
+    public static int playerIndex = 0;
 
     public static void saveInit(String[] name , String size){
         playerName[0] = name[0];

@@ -6,6 +6,7 @@ import com.simciv.Graphics.Colors;
 
 import com.simciv.Icons.Icon;
 import com.simciv.Players.Player;
+import com.simciv.Players.Players;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -145,10 +146,10 @@ public class GameMap extends GridPane {
 
     public Coordinates getNewSelectionStart(Coordinates f) {
         //TODO check where the limit really is ie why 3
-        int x = (f.x + ds) >= GameStats.maxX - maxX - 3 ? GameStats.maxX - maxX - 4 :
+        int x = (f.x + ds) >= GameStats.maxX - maxX  ? GameStats.maxX - maxX -1 :
                 (f.x + ds) < 7 ? 7 :
                         (f.x + ds);
-        int y = (f.y + dz) >= GameStats.maxY - maxY - 3 ? GameStats.maxY - maxY - 4 :
+        int y = (f.y + dz) >= GameStats.maxY - maxY  ? GameStats.maxY - maxY -1 :
                 (f.y + dz) < 5 ? 5 :
                         (f.y + dz);
         ds = 0;
@@ -197,15 +198,17 @@ public class GameMap extends GridPane {
 
     private String[][] makeUnitsMap() {
         String[][] units = initUnitsMap();
-        GameStats.makePlayers();
+        Players players = new Players();
         LinkedList<Player> list = new LinkedList<>();
-        for (int i = 0; i < GameStats.players.list.size(); i++) {
-            list.add(GameStats.players.list.get(i));
-        }
+        list.addAll(players.list);
 
         for (Player p : list) {
-            units[p.startLocation.x][p.startLocation.y] = Icon.unit[0];
+            Coordinates s = p.getStartLocation();
+            int x = s.x;
+            int y = s.y;
+            units[x][y] = Icon.unit[0];
         }
+
         return units;
     }
 
@@ -274,17 +277,25 @@ public class GameMap extends GridPane {
     }
 
     private void showWorldMap() {
+
         for (int x = 0; x < maxX; x++) {
             for (int y = 0; y < maxY; y++) {
-                Label tile = worldMap[start.x + x][start.y + y].label;
-                setConstraints(tile, x, y);
-                getChildren().add(tile);
+                Label label = new Label();
+                Label tileContents = worldMap[start.x + x][start.y + y].label;
+                label.setText(tileContents.getText());
+                label.setMinSize(tileContents.getMinWidth(),tileContents.getMinHeight());
+                label.setStyle(tileContents.getStyle());
+                label.setTextFill(Color.BLACK);
+                setConstraints(label, x, y);
+                getChildren().add(label);
             }
         }
     }
 
     private void setFocusTile(Coordinates c) {
-        visiblegrid[c.x][c.y].label.setStyle(colorMapSelection[c.x][c.y] + "-fx-border-color: white;");
+        Label label = visiblegrid[c.x][c.y].label;
+        label.setStyle(colorMapSelection[c.x][c.y] +
+                        "-fx-border-color: white;");
     }
 
     public void moveFocusTile(Coordinates oldFocus, Coordinates newFocus) {
