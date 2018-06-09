@@ -2,9 +2,8 @@ package com.simciv.Screens.GamePlay;
 
 import com.simciv.Coordinates;
 import com.simciv.GameStats;
-import com.simciv.Graphics.Colors;
 import javafx.scene.control.Label;
-import com.simciv.Unit;
+import com.simciv.actor.Unit;
 
 public class Tile {
     Label label = new Label();

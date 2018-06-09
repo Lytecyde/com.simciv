@@ -1,8 +1,9 @@
-package com.simciv;
+package com.simciv.actor;
 
 import com.simciv.Enums.ExperienceType;
 import com.simciv.Enums.MobilityType;
 import com.simciv.Enums.UnitType;
+import com.simciv.ID;
 //import gson.*;
 
 public class Unit {

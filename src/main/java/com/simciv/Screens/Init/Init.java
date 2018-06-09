@@ -30,13 +30,13 @@ public class Init {
         grid.setVgap(5);
         grid.setHgap(5);
 
-        final TextField name = new TextField("");
+        final TextField name = new TextField("a");
         name.setPromptText("Enter your first name.");
         name.setPrefColumnCount(10);
         GridPane.setConstraints(name, 0, 0);
         grid.getChildren().add(name);
 
-        TextField lastName = new TextField("");
+        TextField lastName = new TextField("a");
         lastName.setPromptText("Enter your last name.");
         GridPane.setConstraints(lastName, 0, 1);
         grid.getChildren().add(lastName);
