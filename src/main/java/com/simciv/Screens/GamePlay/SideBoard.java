@@ -18,7 +18,7 @@ public class SideBoard extends GridPane {
         setHgap(2);
         setAlignment(Pos.TOP_LEFT);
         MiniMap map = new MiniMap(mapSize);
-        map.makeMap(GameStats.maxX, GameStats.maxY);
+        map.makeMap();
         GridPane g = map.get();
         //g.setMinHeight(100);
         g.setMaxWidth(75);

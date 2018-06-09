@@ -1,46 +1,45 @@
 package com.simciv.Screens.GamePlay;
 
-import com.simciv.Graphics.Colors;
 import javafx.scene.layout.GridPane;
 
 import static com.simciv.GameStats.*;
-import static com.simciv.GameStats.maxY;
 
 class MiniMap extends GridPane {
-
+    String[][] cm;
+    int maxX, maxY;
     MiniMap(String mapSize) {
-
+        cm = colorMap;
         selectMapSize(mapSize);
-        makeMap(maxX, maxY);
+        makeMap();
     }
 
     private void selectMapSize(String mapSize) {
         switch(mapSize) {
             case "Small" :
-                maxX = 50;
-                maxY = 32;
+                this.maxX = 50;
+                this.maxY = 32;
                 break;
             case "Medium" :
-                maxX = 64;
-                maxY = 40;
+                this.maxX = 64;
+                this.maxY = 40;
                 break;
             case "Large" :
-                maxX = 80;
-                maxY = 48;
+                this.maxX = 72;
+                this.maxY = 48;
                 break;
             case "Huge" :
-                maxX = 90;
-                maxY = 64;
+                this.maxX = 90;
+                this.maxY = 64;
                 break;
             default :
-                maxX = 64;
-                maxY = 40;
+                this.maxX = 64;
+                this.maxY = 40;
         }
     }
 
-    void makeMap(int maxX, int maxY) {
-        Tile[][] tilegrid = new Tile[maxX][maxY];
-        init(maxX, maxY, tilegrid);
+    void makeMap() {
+        Tile[][] tilegrid = new Tile[this.maxX][this.maxY];
+        init(this.maxX, this.maxY, tilegrid);
 
         setVgap(0);
         setHgap(0);
@@ -51,7 +50,9 @@ class MiniMap extends GridPane {
     private void make(int maxX, int maxY, Tile[][] tilegrid) {
         for(int x = 0; x < maxX ; x++ ){
             for (int y = 0; y < maxY ; y++) {
-                tilegrid[x][y].label.setStyle(Colors.incognita);
+                System.out.println("value of tilegrid element" +x+ "  "+y);
+                String color = cm[x][y];
+                tilegrid[x][y].label.setStyle(color);
                 GridPane.setConstraints(tilegrid[x][y].label, x, y);
                 getChildren().add(tilegrid[x][y].label);
             }

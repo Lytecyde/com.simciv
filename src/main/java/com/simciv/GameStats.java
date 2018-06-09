@@ -7,6 +7,7 @@ public class GameStats {
     public static int maxY;
     public static int unitsInTotal;
     public static int tileSize = 20;
+    public static String[][] colorMap;
     public static void save(String[] name , String size){
         playerName[0] = name[0];
         playerName[1] = name[1];
@@ -18,21 +19,22 @@ public class GameStats {
                 maxY = 32;
                 break;
             case "Medium":
-                maxX = 60;
-                maxY = 36;
+                maxX = 64;
+                maxY = 40;
                 break;
             case "Large":
                 maxX = 72;
-                maxY = 44;
+                maxY = 48;
                 break;
             case "Huge":
                 maxX = 90;
-                maxY = 52;
+                maxY = 64;
                 break;
             default:
                 maxX = 60;
                 maxY = 36;
         }
+        colorMap = new String[maxX][maxY];
         unitsInTotal = 2;
     }
 }
