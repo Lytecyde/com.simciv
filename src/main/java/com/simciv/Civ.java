@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 
 
 public class Civ extends Application {
+    int gridTileSide = 35;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -18,7 +20,8 @@ public class Civ extends Application {
         Init init = new Init(primaryStage);
         GridPane grid = init.getGrid();
 
-        primaryStage.setScene(new Scene(grid, 35*15, 35*12));
+        primaryStage.setScene(new Scene(grid, gridTileSide*15,
+                gridTileSide*12));
         primaryStage.show();
     }
 }

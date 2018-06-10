@@ -4,6 +4,7 @@ import com.simciv.Coordinates;
 import com.simciv.GameStats;
 import com.simciv.Graphics.Colors;
 
+import com.simciv.Screens.CityManager.Units;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -32,31 +33,24 @@ public class GameMap extends GridPane {
     public GameMap() {
         setFocusTraversable(true);
         new KeyHandlerK(this);
+        drawCities(this);
+        drawImprovements(this);
+        drawUnits(this);
+
     }
 
-    class Bounds {
-        private int x, y;
-
-        Bounds(int sx, int sy) {
-            x = sx;
-            y = sy;
-        }
-
-        private boolean isWithin() {
-            return isWithinUpper(x,y) &&
-                    isWithinLower(x,y);
-        }
-
-        private boolean isWithinUpper(int sx, int sy) {
-            return (sx < limitX ) &&
-                    (sy < limitY);
-        }
-
-        private boolean isWithinLower(int sx, int sy) {
-            return sx >= CENTER.x && sy >= CENTER.y;
-        }
+    private void drawUnits(GameMap gameMap) {
+        Units units = new Units();
+        Draw d = new Draw(units, gameMap);
     }
 
+    private void drawImprovements(GameMap gameMap) {
+
+    }
+
+    private void drawCities(GameMap gameMap) {
+
+    }
 
     private Coordinates getNewFocus(Coordinates f) {
         int x = (f.x + dx) >= maxX ? maxX - 1 :
@@ -70,13 +64,12 @@ public class GameMap extends GridPane {
     }
 
     private Coordinates getNewSelectionStart(Coordinates f) {
-        //TODO check where the limit really is
         int x = (f.x + ds) >=
-                GameStats.maxX - 2*maxX ? GameStats.maxX - 2*maxX - 1 :
+                GameStats.maxX - maxX ? GameStats.maxX - maxX  :
                 (f.x + ds) < CENTER.x ? CENTER.x :
                         (f.x + ds);
         int y = (f.y + di) >=
-                GameStats.maxY - 2*maxY ? GameStats.maxY - 2*maxY - 1 :
+                GameStats.maxY - maxY ? GameStats.maxY - maxY  :
                 (f.y + di) < CENTER.y ? CENTER.y :
                         (f.y + di);
         ds = 0;
@@ -178,12 +171,13 @@ public class GameMap extends GridPane {
     private void setFocusTile() {
         int x = 7;
         int y = 5;
-        visiblegrid[x][y].label.setStyle(colorMapSelection[x][y] + "-fx-border-color: white;");
+        visiblegrid[x][y].label.setStyle(colorMapSelection[x][y] +
+                "-fx-border-color: white;");
     }
 
     private void moveFocusTile(Coordinates oldFocus) {
         visiblegrid[oldFocus.x][oldFocus.y].label.setStyle(
-                colorMap[oldFocus.x + CENTER.x][oldFocus.y +CENTER.y] +
+                colorMap[oldFocus.x + CENTER.x][oldFocus.y + CENTER.y] +
                         "-fx-border-color: transparent;"
         );
         Coordinates newFocus = getAdjustedCoordinates();
@@ -206,8 +200,32 @@ public class GameMap extends GridPane {
         dx = 0;
         dy = 0;
     }
+
+    class Bounds {
+        private int x, y;
+
+        Bounds(int sx, int sy) {
+            x = sx;
+            y = sy;
+        }
+
+        private boolean isWithin() {
+            return isWithinUpper(x,y) &&
+                    isWithinLower(x,y);
+        }
+
+        private boolean isWithinUpper(int sx, int sy) {
+            return (sx < limitX ) &&
+                    (sy < limitY);
+        }
+
+        private boolean isWithinLower(int sx, int sy) {
+            return sx >= CENTER.x && sy >= CENTER.y;
+        }
+    }
+
     class KeyHandlerK {
-        
+
         KeyHandlerK(GameMap gameMap){
                gameMap.setOnKeyPressed(new EventHandler<>() {
                 int selectionX;
@@ -243,7 +261,6 @@ public class GameMap extends GridPane {
                         System.out.println("moving the map");
                         moveMap();
                     } else {
-
                         GameMap.this.moveFocusTile(focus);
                         System.out.println("cursor in MOBILE state");
                     }
