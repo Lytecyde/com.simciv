@@ -2,7 +2,6 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'application'
 
-sourceCompatibility = 1.10
 
 repositories {
     mavenCentral()

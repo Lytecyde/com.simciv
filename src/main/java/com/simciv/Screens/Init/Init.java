@@ -72,7 +72,7 @@ public class Init {
             playerName[1] = lastName.getText();
 
             mapSizeLevel = mapSize.getValue();
-            GameStats.saveInit(playerName, mapSizeLevel);
+            GameStats.save(playerName, mapSizeLevel);
             grid.getChildren().removeAll(name, lastName, play);
             GameMap visibleMap = new GameMap();
             visibleMap.make();
