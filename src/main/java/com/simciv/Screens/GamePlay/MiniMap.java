@@ -55,6 +55,9 @@ class MiniMap extends GridPane {
                 System.out.println("value of tilegrid element" +x+ "  "+y);
                 String color = cm[x][y];
                 tilegrid[x][y].label.setStyle(color);
+                tilegrid[x][y].label.setVisible(true);
+                tilegrid[x][y].label.setMinSize(2,2);
+                tilegrid[x][y].label.setMaxSize(2,2);
                 GridPane.setConstraints(tilegrid[x][y].label, x, y);
                 getChildren().add(tilegrid[x][y].label);
             }

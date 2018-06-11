@@ -1,0 +1,44 @@
+[
+  {
+    "name" : "Granary",
+    "cost" : 40,
+    "icon" : "",
+    "upkeep" : 1,
+    "required" : "Agriculture"
+  },
+  {
+    "name" : "Library",
+    "cost" : 60,
+    "icon" : "",
+    "upkeep" : 1,
+    "required" : "Writing"
+  },
+  {
+    "name" : "Bathhouse",
+    "cost" : 40,
+    "upkeep" : 1,
+    "icon" : "",
+    "required" : "Cleaning"
+  },
+  {
+    "name" : "Temple",
+    "cost" : 100,
+    "upkeep" : 2,
+    "icon" : "⛩️",
+    "required" : "Ceremonies"
+  },
+  {
+    "name" : "Wall",
+    "cost" : 120,
+    "upkeep" : "2",
+    "icon" : "",
+    "required" : "Construction"
+  },
+  {
+    "name" : "School",
+    "cost" : 80,
+    "upkeep" : "2",
+    "icon" : "🏫",
+    "required" : "Teaching"
+  }
+]

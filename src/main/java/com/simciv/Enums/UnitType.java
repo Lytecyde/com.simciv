@@ -4,5 +4,6 @@ public enum UnitType {
     LAND,
     SEA,
     AIR,
+    ORBIT,
     SPACE
 }

@@ -7,18 +7,23 @@ import com.simciv.Graphics.Colors;
 
 import com.simciv.Improvements;
 import com.simciv.Screens.CityManager.Units;
+import com.simciv.Icons.Icon;
+import com.simciv.Players.Player;
+import com.simciv.Players.Players;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
+import java.util.LinkedList;
 
 public class GameMap extends GridPane {
     private static int maxX = 15;
     private static int maxY = 12;
     private static Tile[][] visiblegrid = new Tile[maxX][maxY];
     private Tile[][] worldMap = new Tile[GameStats.maxX][GameStats.maxY];
-    private String[][] colorMap = new String[GameStats.maxX][GameStats.maxY];
+    private String[][] visibleMap = new String[GameStats.maxX][GameStats.maxY];
     private String[][] colorMapSelection = new String[maxX][maxY];
     private int dx = 0;
     private int dy = 0;
@@ -39,6 +44,10 @@ public class GameMap extends GridPane {
         drawImprovements(this);
         drawUnits(this);
 
+    }
+
+    public void setReturnFocuseable() {
+        setFocusTraversable(true);
     }
 
     private void drawUnits(GameMap gameMap) {
@@ -88,7 +97,7 @@ public class GameMap extends GridPane {
         worldMap = initWorldMap();
         makeWorldMap(worldMap);
 
-        setColorMapSelection(focus);
+        setVisibleMapSelection(focus);
 
         initVisibleGrid();
         makeGrid();
@@ -106,26 +115,54 @@ public class GameMap extends GridPane {
     }
 
     private void makeWorldMap(Tile[][] worldMap) {
-        colorMap = makeColorMap();
+        visibleMap = makeVisibleMap();
+        String[][] unitsMap = makeUnitsMap();
         for (int x = 0; x < GameStats.maxX; x++) {
             for (int y = 0; y < GameStats.maxY; y++) {
                 Label tile = worldMap[x][y].label;
-                tile.setStyle(colorMap[x][y]);
                 tile.setMinSize(tileSize, tileSize);
+                tile.setStyle(visibleMap[x][y]);
+                tile.setTextFill(Color.BLACK);
+                tile.setText(unitsMap[x][y]);
                 worldMap[x][y].label = tile;
             }
         }
     }
 
-    private String[][] makeColorMap() {
+    private String[][] makeUnitsMap() {
+        String[][] units = initUnitsMap();
+        Players players = new Players();
+        LinkedList<Player> list = new LinkedList<>();
+        list.addAll(players.list);
+
+        for (Player p : list) {
+            Coordinates s = p.getStartLocation();
+            int x = s.x;
+            int y = s.y;
+            units[x][y] = Icon.unit[0];
+        }
+
+        return units;
+    }
+
+    private String[][] initUnitsMap() {
+        String[][] units = new String[GameStats.maxX][GameStats.maxY];
         for (int x = 0; x < GameStats.maxX; x++) {
             for (int y = 0; y < GameStats.maxY; y++) {
                 System.out.println(getRandomLandIndex());
-                colorMap[x][y] = Colors.lands[getRandomLandIndex()];
             }
         }
-        GameStats.colorMap = colorMap;
-        return colorMap;
+
+        return units;
+    }
+
+    private String[][] makeVisibleMap() {
+        for (int x = 0; x < GameStats.maxX; x++) {
+            for (int y = 0; y < GameStats.maxY; y++) {
+                visibleMap[x][y] = Colors.lands[getRandomLandIndex()];
+            }
+        }
+        return visibleMap;
     }
 
     private int getRandomLandIndex() {
@@ -134,7 +171,7 @@ public class GameMap extends GridPane {
         return r;
     }
 
-    private void setColorMapSelection(Coordinates start) {
+    private void setVisibleMapSelection(Coordinates start) {
         for (int x = 0; x < maxX; x++) {
             for (int y = 0; y < maxY; y++) {
                 int selectionX = x + start.x;
@@ -143,7 +180,7 @@ public class GameMap extends GridPane {
                 String s;
                 Bounds bounds = new Bounds(selectionX, selectionY);
                 if (bounds.isWithin()){
-                    s = colorMap[selectionX][selectionY];
+                    s = visibleMap[selectionX][selectionY];
                     colorMapSelection[x][y] = s;
                 } else {
                     System.out.println("erroneous numbers!!!!");
@@ -181,13 +218,13 @@ public class GameMap extends GridPane {
 
     private void moveFocusTile(Coordinates oldFocus) {
         visiblegrid[oldFocus.x][oldFocus.y].label.setStyle(
-                colorMap[oldFocus.x + CENTER.x][oldFocus.y + CENTER.y] +
+                visibleMap[oldFocus.x + CENTER.x][oldFocus.y + CENTER.y] +
                         "-fx-border-color: transparent;"
         );
         Coordinates newFocus = getAdjustedCoordinates();
         visiblegrid[newFocus.x][newFocus.y].label.setStyle(
-                colorMap[newFocus.x + CENTER.x][newFocus.y + CENTER.y] +
-                        "-fx-border-color: white;"
+                visibleMap[newFocus.x + CENTER.x][newFocus.y + CENTER.y]
+                        + "-fx-border-color: white;"
         );
         focus = newFocus;
     }
@@ -198,6 +235,10 @@ public class GameMap extends GridPane {
 
     public GridPane getMap() {
         return this;
+    }
+
+    public String[][] getVisibleMap() {
+        return visibleMap;
     }
 
     private void resetDifference() {
@@ -280,7 +321,7 @@ public class GameMap extends GridPane {
                                GameMap.this.getNewSelectionStart(start);
                        start = new Coordinates(n.x ,
                                n.y );
-                       GameMap.this.setColorMapSelection(start);
+                       GameMap.this.setVisibleMapSelection(start);
                        GameMap.this.initVisibleGrid();
                        GameMap.this.makeGrid();
                        //GameMap.this.setFocusTile();
@@ -293,7 +334,7 @@ public class GameMap extends GridPane {
                                "   " +
                                limitY
                        );
-                       GameMap.this.setColorMapSelection(start);
+                       GameMap.this.setVisibleMapSelection(start);
                        GameMap.this.initVisibleGrid();
                        GameMap.this.makeGrid();
                    }

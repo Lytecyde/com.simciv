@@ -1,0 +1,67 @@
+[
+  {
+    "name" : "Alphabet",
+    "requirement1" : "",
+    "requirement2" : "",
+    "obsoletion" : "",
+    "leadsTo" : "Writing",
+    "cost" : 1
+  },
+  {
+    "name" : "Writing",
+    "requirement1" : "Alphabet",
+    "requirement2" : "Digits",
+    "obsoletion" : "",
+    "leadsTo" : "Literacy",
+    "cost" : 2
+  },
+  {
+    "name" : "Agriculture",
+    "requirement1" : "",
+    "requirement2" : "",
+    "obsoletion" : "",
+    "leadsTo" : "Farming",
+    "cost" : 1
+  },
+  {
+    "name" : "Teaching",
+    "requirement1" : "",
+    "requirement2" : "",
+    "obsoletion" : "",
+    "leadsTo" : "Education",
+    "cost" : 2
+  },
+  {
+    "name" : "Ceremonies",
+    "requirement1" : "",
+    "requirement2" : "",
+    "obsoletion" : "",
+    "leadsTo" : "Monotheism",
+    "cost" : 1
+  },
+  {
+    "name" : "Cleaning",
+    "requirement1" : "",
+    "requirement2" : "",
+    "obsoletion" : "",
+    "leadsTo" : "Hygiene",
+    "cost" : 1
+  },
+  {
+    "name" : "Construction",
+    "requirement1" : "",
+    "requirement2" : "",
+    "obsoletion" : "",
+    "leadsTo" : "Engineering",
+    "cost" : 3
+  },
+  {
+    "name" : "Digits",
+    "requirement1" : "",
+    "requirement2" : "",
+    "obsoletion" : "",
+    "leadsTo" : "Counting",
+    "cost" : 1
+  }
+]
+

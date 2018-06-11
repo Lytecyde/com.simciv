@@ -1,0 +1,38 @@
+[
+  {
+    "unitType" : "Land",
+    "name" : "Settler",
+    "icon" : "👤",
+    "status" : "exploring",
+    "move" : "1",
+    "attack" : "0",
+    "defence" : "0",
+    "hp" : "1",
+    "xp" : "0",
+    "buildCost" : "40",
+    "requirement" : "",
+    "obsoletion" : "",
+    "foodCost" : "1",
+    "moneyCost" : "0",
+    "actions" : "build,irrigation,fortification,mine,road",
+    "boardable" : "0"
+  },
+  {
+    "unitType": "Land",
+    "name": "Worker",
+    "icon" : "👷",
+    "status": "exploring",
+    "move": "1",
+    "attack": "0",
+    "defence": "0",
+    "hp": "1",
+    "xp": "0",
+    "buildCost": "40",
+    "requirement": "",
+    "obsoletion": "",
+    "foodCost": "1",
+    "moneyCost": "0",
+    "actions": "irrigation,fortification,mine,road",
+    "boardable": "0"
+  }
+]

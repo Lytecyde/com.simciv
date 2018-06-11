@@ -6,7 +6,12 @@ public class GameStats {
     public static int maxX;
     public static int maxY;
     public static int unitsInTotal;
-    public static int tileSize = 20;
+    public final static int tileSize = 20;
+    public static int time = -4020;
+    public static int playerCount = 2;
+    //public static Players players = new Players();
+    public static int idCount;
+    public static int playerIndex = 0;
     public static String[][] colorMap;
     public static void save(String[] name , String size){
         playerName[0] = name[0];

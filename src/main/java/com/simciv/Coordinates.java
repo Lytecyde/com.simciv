@@ -9,6 +9,9 @@ public class Coordinates {
         y = u;
     }
 
+    public Coordinates(int i) {
+    }
+
     public Coordinates get() {
         return new Coordinates(x, y);
     }
