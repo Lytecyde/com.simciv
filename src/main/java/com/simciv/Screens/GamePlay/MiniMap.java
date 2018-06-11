@@ -12,7 +12,9 @@ class MiniMap extends GridPane {
         selectMapSize(mapSize);
         makeMap();
     }
-
+    /*
+    TODO:reduce redundancy
+     */
     private void selectMapSize(String mapSize) {
         switch(mapSize) {
             case "Small" :

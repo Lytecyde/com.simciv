@@ -1,9 +1,11 @@
 package com.simciv.Screens.GamePlay;
 
+import com.simciv.Cities;
 import com.simciv.Coordinates;
 import com.simciv.GameStats;
 import com.simciv.Graphics.Colors;
 
+import com.simciv.Improvements;
 import com.simciv.Screens.CityManager.Units;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
@@ -41,15 +43,17 @@ public class GameMap extends GridPane {
 
     private void drawUnits(GameMap gameMap) {
         Units units = new Units();
-        Draw d = new Draw(units, gameMap);
+        new Draw(units, gameMap);
     }
 
     private void drawImprovements(GameMap gameMap) {
-
+        Improvements improvements = new Improvements();
+        new Draw(improvements, gameMap);
     }
 
     private void drawCities(GameMap gameMap) {
-
+        Cities cities = new Cities();
+        new Draw(cities, gameMap);
     }
 
     private Coordinates getNewFocus(Coordinates f) {
