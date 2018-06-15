@@ -37,7 +37,7 @@ public class GameStats {
                 break;
             default:
                 maxX = 60;
-                maxY = 36;
+                maxY = 40;
         }
         colorMap = new String[maxX][maxY];
         unitsInTotal = 2;

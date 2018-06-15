@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
+import static com.simciv.GameStats.colorMap;
 import static com.simciv.GameStats.mapSize;
 
 public class SideBoard extends GridPane {
@@ -22,10 +23,11 @@ public class SideBoard extends GridPane {
         setHgap(2);
         setAlignment(Pos.TOP_LEFT);
         MiniMap map = new MiniMap(mapSize);
-        //map.makeMap();
+        colorMap = map.getColorMap();
+        map.makeMap();
         GridPane g = map.get();
-        //g.setMinHeight(100);
-        g.setMaxWidth(75);
+        g.setAlignment(Pos.CENTER);
+        g.setVisible(true);
         setConstraints(g,0,1);
         getChildren().add(g);
 

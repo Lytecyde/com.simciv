@@ -23,7 +23,7 @@ public class GameMap extends GridPane {
     private static int maxY = 12;
     private static Tile[][] visiblegrid = new Tile[maxX][maxY];
     private Tile[][] worldMap = new Tile[GameStats.maxX][GameStats.maxY];
-    private String[][] visibleMap = new String[GameStats.maxX][GameStats.maxY];
+    private static String[][] visibleMap = new String[GameStats.maxX][GameStats.maxY];
     private String[][] colorMapSelection = new String[maxX][maxY];
     private int dx = 0;
     private int dy = 0;
@@ -67,10 +67,10 @@ public class GameMap extends GridPane {
 
     private Coordinates getNewFocus(Coordinates f) {
         int x = (f.x + dx) >= maxX ? maxX - 1 :
-                (f.x + dx) < START.x ? START.y :
+                (f.x + dx) < START.x ? START.x :
                         (f.x + dx);
         int y = (f.y + dy) >= maxY ? maxY - 1 :
-                (f.y + dy) < START.x ? START.y :
+                (f.y + dy) < START.y ? START.y :
                         (f.y + dy);
         resetDifference();
         return new Coordinates(x, y);
@@ -152,7 +152,6 @@ public class GameMap extends GridPane {
                 System.out.println(getRandomLandIndex());
             }
         }
-
         return units;
     }
 
@@ -237,7 +236,7 @@ public class GameMap extends GridPane {
         return this;
     }
 
-    public String[][] getVisibleMap() {
+    public static String[][] getVisibleMap() {
         return visibleMap;
     }
 

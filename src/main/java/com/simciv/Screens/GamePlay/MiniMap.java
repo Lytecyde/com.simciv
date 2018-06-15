@@ -5,8 +5,8 @@ import javafx.scene.layout.GridPane;
 import static com.simciv.GameStats.*;
 
 class MiniMap extends GridPane {
-    String[][] cm;
-    int maxX, maxY;
+    private String[][] cm;
+    private int maxX, maxY;
     MiniMap(String mapSize) {
         cm = colorMap;
         selectMapSize(mapSize);
@@ -52,8 +52,13 @@ class MiniMap extends GridPane {
     private void make(int maxX, int maxY, Tile[][] tilegrid) {
         for(int x = 0; x < maxX ; x++ ){
             for (int y = 0; y < maxY ; y++) {
-                System.out.println("value of tilegrid element" +x+ "  "+y);
+
                 String color = cm[x][y];
+                System.out.println("value of tilegrid element" +
+                        x+
+                        "  "+
+                        y+
+                        cm[x][y]);
                 tilegrid[x][y].label.setStyle(color);
                 tilegrid[x][y].label.setVisible(true);
                 tilegrid[x][y].label.setMinSize(2,2);
@@ -70,6 +75,10 @@ class MiniMap extends GridPane {
                 tilegrid[x][y] = new Tile(2);
             }
         }
+    }
+
+    public String[][] getColorMap(){
+        return cm;
     }
 
     GridPane get(){
