@@ -1,14 +1,13 @@
 package com.simciv.Screens.GamePlay;
 
-import com.simciv.Coordinates;
 import com.simciv.GameStats;
 import javafx.scene.control.Label;
 import com.simciv.actor.Unit;
 
 public class Tile {
     Label label = new Label();
-    boolean hasUnit = false;
-    public Tile(double size) {
+    private boolean hasUnit = false;
+    Tile(double size) {
         label.setMinSize(size, size);
         label.setMaxSize(size, size);
         hasUnit = false;
@@ -18,9 +17,5 @@ public class Tile {
         Tile withUnit = new Tile(GameStats.tileSize);
         withUnit.hasUnit = true;
         withUnit.label.setText("*");
-    }
-
-    public void cursor(Coordinates c) {
-
     }
 }
