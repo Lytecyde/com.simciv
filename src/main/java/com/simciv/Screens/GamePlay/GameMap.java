@@ -271,7 +271,7 @@ public class GameMap extends GridPane {
     class KeyHandlerK {
 
         KeyHandlerK(GameMap gameMap){
-               gameMap.setOnKeyPressed(new EventHandler<>() {
+               gameMap.setOnKeyPressed(new EventHandler<KeyEvent>() {
                 int selectionX;
                 int selectionY;
 
