@@ -161,6 +161,7 @@ public class GameMap extends GridPane {
                 visibleMap[x][y] = Colors.lands[getRandomLandIndex()];
             }
         }
+        GameStats.colorMap = visibleMap;
         return visibleMap;
     }
 

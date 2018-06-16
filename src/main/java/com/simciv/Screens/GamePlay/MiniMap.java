@@ -1,5 +1,6 @@
 package com.simciv.Screens.GamePlay;
 
+import com.simciv.GameStats;
 import javafx.scene.layout.GridPane;
 
 import static com.simciv.GameStats.*;
@@ -8,7 +9,7 @@ class MiniMap extends GridPane {
     private String[][] cm;
     private int maxX, maxY;
     MiniMap(String mapSize) {
-        cm = colorMap;
+        cm = GameStats.colorMap;
         selectMapSize(mapSize);
         makeMap();
     }
