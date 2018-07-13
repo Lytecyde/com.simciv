@@ -1,5 +1,6 @@
 package com.simciv.Screens.GamePlay;
 
+import com.simciv.Coordinate;
 import com.simciv.GameStats;
 import javafx.scene.control.Label;
 import com.simciv.actor.Unit;
@@ -17,5 +18,9 @@ public class Tile {
         Tile withUnit = new Tile(GameStats.tileSize);
         withUnit.hasUnit = true;
         withUnit.label.setText("*");
+    }
+
+    public void cursor(Coordinate c) {
+
     }
 }
