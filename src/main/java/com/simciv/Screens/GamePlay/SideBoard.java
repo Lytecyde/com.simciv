@@ -1,8 +1,7 @@
 package com.simciv.Screens.GamePlay;
 
 import com.simciv.GameStats;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -72,11 +71,7 @@ public class SideBoard extends GridPane {
         setConstraints(gold,0,14);
         getChildren().add(gold);
         Button next = new Button("Next turn");
-        next.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                year.setText("Year:" + GameStats.time++);
-            }
-        });
+        next.setOnAction(e -> year.setText("Year:" + GameStats.time++));
         next.setFocusTraversable(false);
         setConstraints(next,0,15);
         getChildren().add(next);

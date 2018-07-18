@@ -4,6 +4,7 @@ import com.simciv.GameStats;
 import com.simciv.Screens.GamePlay.GameMap;
 import com.simciv.Screens.GamePlay.GameMenuBar;
 import com.simciv.Screens.GamePlay.SideBoard;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,10 +15,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+
 public class Init {
     private String mapSizeLevel = "Medium";
     private GridPane grid;
-    private Scene scene;
+    private SimpleObjectProperty<Scene> scene = new SimpleObjectProperty<Scene>(this, "scene");
     public Init(Stage primaryStage){
         primaryStage.setTitle("Init");
         BorderPane borderPane =  new BorderPane();
@@ -75,15 +77,15 @@ public class Init {
             GameStats.save(playerName, mapSizeLevel);
             grid.getChildren().removeAll(name, lastName, play);
             GameMap visibleMap = new GameMap();
-            visibleMap.make();
+            //visibleMap.make();
 
             GameMenuBar menubar = new GameMenuBar();
             borderPane.setTop(menubar.getMenuBar());
             borderPane.setCenter(visibleMap.getMap());
             borderPane.setRight(new SideBoard());
-            scene = new Scene(borderPane);
+            scene.set(new Scene(borderPane));
 
-            primaryStage.setScene(scene);
+            primaryStage.setScene(scene.get());
             primaryStage.setTitle("SimpleCivilization:" + GameStats.playerName[1]);
             primaryStage.show();
         });

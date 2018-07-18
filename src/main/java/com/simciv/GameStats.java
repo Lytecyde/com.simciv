@@ -1,6 +1,8 @@
 package com.simciv;
 
 public class GameStats {
+    public static final Coordinate CENTER = new Coordinate(7, 5);
+    public static final Coordinate START = new Coordinate(0, 0);
     public static String mapSize;
     public static String[] playerName = new String[2];
     public static int maxX;

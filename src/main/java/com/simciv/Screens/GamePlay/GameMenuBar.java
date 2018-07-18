@@ -1,11 +1,10 @@
 package com.simciv.Screens.GamePlay;
 
+
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 
 public class GameMenuBar extends javafx.scene.control.MenuBar {
-
-
 
     public GameMenuBar(){
         final Menu game = new Menu("Game");
