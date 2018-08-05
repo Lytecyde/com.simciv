@@ -1,7 +1,7 @@
 package com.simciv.Screens.GamePlay;
 
 public class Draw {
-    public Draw(Object obj, GameMap gameMap){
+    public Draw(Object obj, String[][] map){
 
     }
 }

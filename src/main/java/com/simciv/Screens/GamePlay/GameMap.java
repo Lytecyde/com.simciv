@@ -5,6 +5,7 @@ import com.simciv.Icons.Icon;
 import com.simciv.Players.Player;
 import com.simciv.Players.Players;
 import com.simciv.Screens.CityManager.Units;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -16,34 +17,50 @@ import java.util.LinkedList;
 public class GameMap extends GridPane {
 
     private static Tile[][] tiling =
-            new Tile[Viewport.maxX][Viewport.maxY];
+            new Tile[GameStats.maxX][GameStats.maxY];
     private final CursorFrame cursorFrame = new CursorFrame(this);
     private Tile[][] worldMap = new Tile[GameStats.maxX][GameStats.maxY];
-    String[][] colorMapSelection = new String[Viewport.maxX][Viewport.maxY];
+    String[][] colorMapSelection = new String[GameStats.maxX][GameStats.maxY];
     private Coordinate diff = new Coordinate(0, 0);
     Viewport viewport;
     private int tileSize = 35;
     private Coordinate topLeftCorner =
-            new Coordinate(GameStats.CENTER.x, GameStats.CENTER.y);
+            new Coordinate(GameStats.START.x, GameStats.START.y);
     private Coordinate focus =
             new Coordinate(GameStats.CENTER.x, GameStats.CENTER.y);
     private boolean mapShift = false;
     private int limitY = GameStats.maxY;
     private int limitX = GameStats.maxX;
-    private String[][] improvementsMap =
-            new String[GameStats.maxX][GameStats.maxY];
+    private String[][] improvementsMap;
+    private String[][] unitsMap;
+    private String[][] citiesMap;
 
     public GameMap() {
-        new Viewport(this);
+        initViewport();
         setFocusTraversable(true);
         triggerKeyHandler();
-        drawCities(this);
-        drawImprovements(this);
-        drawUnits(this);
+        initMaps();
+        drawAll();
         make();
     }
 
-    public static Tile[][] getTiling() {
+    private void drawAll() {
+        drawImprovements();
+        drawUnits();
+        drawCities();
+    }
+
+    private void initViewport() {
+        viewport = new Viewport(this);
+    }
+
+    private void initMaps() {
+        improvementsMap = new String[GameStats.maxX][GameStats.maxY];
+        unitsMap = new String[GameStats.maxX][GameStats.maxY];
+        citiesMap = new String[GameStats.maxX][GameStats.maxY];
+    }
+
+    static Tile[][] getTiling() {
         return tiling;
     }
 
@@ -51,46 +68,29 @@ public class GameMap extends GridPane {
         new KeyHandlerK(this);
     }
 
-    private void drawUnits(GameMap gameMap) {
+    private void drawUnits() {
         Units units = new Units();
-        new Draw(units, gameMap);
+        new Draw(units, unitsMap );
     }
 
-    private void drawImprovements(GameMap gameMap) {
+    private void drawImprovements() {
         Improvements improvements = new Improvements();
-        new Draw(improvements, gameMap);
+        new Draw(improvements, improvementsMap);
     }
 
-    private void drawCities(GameMap gameMap) {
+    private void drawCities() {
         Cities cities = new Cities();
-        new Draw(cities, gameMap);
-    }
-
-    private Coordinate getNewTopLeftCorner(Coordinate f) {
-        int x = (f.x + viewport.diffX) >=
-                GameStats.maxX - Viewport.maxX ? GameStats.maxX - Viewport
-                .maxX :
-                (f.x + viewport.diffX) < GameStats.CENTER.x ? GameStats
-                        .CENTER.x :
-                        (f.x + viewport.diffX);
-        int y = (f.y + viewport.diffY) >=
-                GameStats.maxY - Viewport.maxY ? GameStats.maxY - Viewport
-                .maxY :
-                (f.y + viewport.diffY) < GameStats.CENTER.y ? GameStats
-                        .CENTER.y :
-                        (f.y + viewport.diffY);
-        viewport.resetDifference();
-        return new Coordinate(x, y);
+        new Draw(cities, citiesMap);
     }
 
 
-    public void make() {
+    private void make() {
         setMaxSize(600, 400);
 
         worldMap = initWorldMap();
         makeWorldMap(worldMap);
 
-        setViewport(focus);
+        viewport.setViewport(focus);
 
         initTiling();
         makeGrid();
@@ -144,32 +144,16 @@ public class GameMap extends GridPane {
         String[][] units = new String[GameStats.maxX][GameStats.maxY];
         for (int x = 0; x < GameStats.maxX; x++) {
             for (int y = 0; y < GameStats.maxY; y++) {
-                System.out.println("");
+                units[x][y] = "";
+                System.out.println();
             }
         }
         return units;
     }
 
-    private void setViewport(Coordinate start) {
-        for (int x = 0; x < Viewport.maxX; x++) {
-            for (int y = 0; y < Viewport.maxY; y++) {
-                int selectionX = x + start.x;
-                int selectionY = y + start.y;
-                String s;
-                Bounds bounds = new Bounds(this, selectionX, selectionY);
-                if (bounds.isWithin()) {
-                    s = GameStats.colorMap[selectionX][selectionY];
-                    colorMapSelection[x][y] = s;
-                } else {
-                    System.out.println("erroneous numbers!!!!");
-                }
-            }
-        }
-    }
-
     private void initTiling() {
-        for (int x = 0; x < Viewport.maxX; x++) {
-            for (int y = 0; y < Viewport.maxY; y++) {
+        for (int x = 0; x < GameStats.maxX; x++) {
+            for (int y = 0; y < GameStats.maxY; y++) {
                 tiling[x][y] = new Tile(1);
             }
         }
@@ -190,42 +174,36 @@ public class GameMap extends GridPane {
     public GridPane getMap() {
         return this;
     }
-
-    /*public static String[][] getVisibleMap() {
-        return visibleMap;
-    }*/
-    public static void setTiling(Tile[][] tiling) {
-        GameMap.tiling = tiling;
-    }
     
-    public Coordinate getDiff() {
+    Coordinate getDiff() {
         return diff;
     }
 
-    public void setDiff() {
+    void setDiff() {
         diff = new Coordinate(0, 0);
     }
 
-    public Coordinate getFocus() {
+    Coordinate getFocus() {
         return focus;
     }
 
-    public String[][] getColorMapSelection() {
+    String[][] getColorMapSelection() {
         return colorMapSelection;
     }
 
-    public Viewport getViewport() {
+    Viewport getViewport() {
         return viewport;
     }
 
-    public void setFocus(Coordinate focus) {
+    void setFocus(Coordinate focus) {
         this.focus = focus;
     }
 
     class KeyHandlerK {
 
         KeyHandlerK(GameMap gameMap) {
-            gameMap.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            gameMap.setOnKeyPressed(new EventHandler<>() {
+
                 int selectionX;
                 int selectionY;
 
@@ -267,15 +245,16 @@ public class GameMap extends GridPane {
                 private void moveMap() {
                     selectionX = topLeftCorner.x;
                     selectionY = topLeftCorner.y;
-                    Bounds bounds = new Bounds(GameMap.this, selectionX,
+                    Bounds bounds = new Bounds( selectionX,
                             selectionY);
                     if (bounds.isWithin()) {
                         System.out.println("in bounds");
                         Coordinate n =
-                                GameMap.this.getNewTopLeftCorner(topLeftCorner);
+                                GameMap.this.viewport.getNewTopLeftCorner
+                                        (topLeftCorner);
                         topLeftCorner = new Coordinate(n.x,
                                 n.y);
-                        GameMap.this.setViewport(topLeftCorner);
+                        GameMap.this.viewport.setViewport(topLeftCorner);
                         GameMap.this.initTiling();
                         GameMap.this.makeGrid();
                     } else {

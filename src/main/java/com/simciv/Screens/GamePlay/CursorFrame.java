@@ -3,17 +3,17 @@ package com.simciv.Screens.GamePlay;
 import com.simciv.Coordinate;
 import com.simciv.GameStats;
 
-public class CursorFrame {
+class CursorFrame {
     private final GameMap gameMap;
     private Tile[][] tiling;
-    public CursorFrame(GameMap gameMap) {
+    CursorFrame(GameMap gameMap) {
         this.gameMap = gameMap;
         tiling = gameMap.getTiling();
     }
 
     void setFocusTile() {
-        int x = 7;
-        int y = 5;
+        int x = GameStats.CENTER.x;
+        int y = GameStats.CENTER.y;
         tiling[x][y].label.setStyle(
                 gameMap.getColorMapSelection()[x][y] +
                 "-fx-border-color: white;");

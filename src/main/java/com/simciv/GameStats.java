@@ -7,15 +7,14 @@ public class GameStats {
     public static String[] playerName = new String[2];
     public static int maxX;
     public static int maxY;
-    public static int unitsInTotal;
+    //private static int unitsInTotal;
     public final static int tileSize = 20;
     public static int time = -4020;
     public static int playerCount = 2;
     //public static Players players = new Players();
-    public static int idCount;
-    public static int playerIndex = 0;
+    static int idCount;
     public static String[][] colorMap;
-    public static void save(String[] name , String size){
+    public static void init(String[] name , String size){
         playerName[0] = name[0];
         playerName[1] = name[1];
         mapSize = size;
@@ -42,6 +41,5 @@ public class GameStats {
                 maxY = 40;
         }
         colorMap = new String[maxX][maxY];
-        unitsInTotal = 2;
     }
 }

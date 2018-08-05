@@ -3,11 +3,9 @@ package com.simciv.Screens.GamePlay;
 import com.simciv.GameStats;
 
 class Bounds {
-    private GameMap gameMap;
     private int x, y;
 
-    Bounds(GameMap gameMap, int sx, int sy) {
-        this.gameMap = gameMap;
+    Bounds( int sx, int sy) {
         x = sx;
         y = sy;
     }
@@ -23,6 +21,6 @@ class Bounds {
     }
 
     private boolean isWithinLower(int sx, int sy) {
-        return sx >= GameStats.CENTER.x && sy >= GameStats.CENTER.y;
+        return sx >= GameStats.START.x && sy >= GameStats.START.y;
     }
 }

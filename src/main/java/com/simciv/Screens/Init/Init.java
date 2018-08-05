@@ -19,7 +19,8 @@ import javafx.stage.Stage;
 public class Init {
     private String mapSizeLevel = "Medium";
     private GridPane grid;
-    private SimpleObjectProperty<Scene> scene = new SimpleObjectProperty<Scene>(this, "scene");
+    private SimpleObjectProperty<Scene> scene =
+            new SimpleObjectProperty<>(this, "scene");
     public Init(Stage primaryStage){
         primaryStage.setTitle("Init");
         BorderPane borderPane =  new BorderPane();
@@ -74,7 +75,7 @@ public class Init {
             playerName[1] = lastName.getText();
 
             mapSizeLevel = mapSize.getValue();
-            GameStats.save(playerName, mapSizeLevel);
+            GameStats.init(playerName, mapSizeLevel);
             grid.getChildren().removeAll(name, lastName, play);
             GameMap visibleMap = new GameMap();
             //visibleMap.make();
