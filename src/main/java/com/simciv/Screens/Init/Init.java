@@ -21,9 +21,9 @@ public class Init {
     private GridPane grid;
     private SimpleObjectProperty<Scene> scene =
             new SimpleObjectProperty<>(this, "scene");
-    public Init(Stage primaryStage){
+    public Init(Stage primaryStage) {
         primaryStage.setTitle("Init");
-        BorderPane borderPane =  new BorderPane();
+        BorderPane borderPane = new BorderPane();
         grid = new GridPane();
         grid.setPadding(new Insets(
                 10,
@@ -45,7 +45,7 @@ public class Init {
         grid.getChildren().add(lastName);
 
         ChoiceBox<String> mapSize = new ChoiceBox<>();
-        mapSize.getItems().addAll("Small", "Medium","Large", "Huge");
+        mapSize.getItems().addAll("Small", "Medium", "Large", "Huge");
         mapSize.setValue(mapSizeLevel);
         GridPane.setConstraints(mapSize, 0, 2);
         grid.getChildren().add(mapSize);
@@ -55,9 +55,15 @@ public class Init {
         grid.getChildren().add(size);
 
         ChoiceBox<String> civName = new ChoiceBox<>();
-        String[] civNames = {"Zulu", "Egypt", "Greece", "Viking", "India", "China", "Aztec"};
+        String[] civNames = {"Zulu",
+                "Egypt",
+                "Greece",
+                "Viking",
+                "India",
+                "China",
+                "Aztec"};
         civName.getItems().addAll(civNames);
-        civName.setValue(civNames[(int)Math.floor(Math.random() * civNames.length)]);
+        civName.setValue(civNames[getCivIndex(civNames)]);
         GridPane.setConstraints(civName, 0, 3);
         grid.getChildren().add(civName);
 
@@ -68,10 +74,10 @@ public class Init {
         Button play = new Button();
         play.setText("Play");
         play.setOnAction(event -> {
-            String[] playerName = {"",""};
-            if(name.getText().equals(""))return;
+            String[] playerName = {"", ""};
+            if (name.getText().equals("")) return;
             playerName[0] = name.getText();
-            if(lastName.getText().equals(""))return;
+            if (lastName.getText().equals("")) return;
             playerName[1] = lastName.getText();
 
             mapSizeLevel = mapSize.getValue();
@@ -87,14 +93,19 @@ public class Init {
             scene.set(new Scene(borderPane));
 
             primaryStage.setScene(scene.get());
-            primaryStage.setTitle("SimpleCivilization:" + GameStats.playerName[1]);
+            primaryStage.setTitle("SimpleCivilization:" +
+                    GameStats.playerName[1]);
             primaryStage.show();
         });
         GridPane.setConstraints(play, 1, 7);
         grid.getChildren().add(play);
     }
 
+    private int getCivIndex(String[] civNames) {
+        return (int) Math.floor(Math.random() * civNames.length);
+    }
+
     public GridPane getGrid() {
-       return grid;
+        return grid;
     }
 }

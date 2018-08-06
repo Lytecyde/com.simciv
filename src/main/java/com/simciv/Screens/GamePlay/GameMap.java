@@ -14,11 +14,13 @@ import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
 
+import static com.simciv.Graphics.Colors.lands;
+
 public class GameMap extends GridPane {
 
     private static Tile[][] tiling =
             new Tile[GameStats.maxX][GameStats.maxY];
-    private final CursorFrame cursorFrame = new CursorFrame(this);
+    private CursorFrame cursorFrame;
     private Tile[][] worldMap = new Tile[GameStats.maxX][GameStats.maxY];
     String[][] colorMapSelection = new String[GameStats.maxX][GameStats.maxY];
     private Coordinate diff = new Coordinate(0, 0);
@@ -36,7 +38,9 @@ public class GameMap extends GridPane {
     private String[][] citiesMap;
 
     public GameMap() {
+        makeMap();
         initViewport();
+        cursorFrame = new CursorFrame(this);
         setFocusTraversable(true);
         triggerKeyHandler();
         initMaps();
@@ -70,7 +74,7 @@ public class GameMap extends GridPane {
 
     private void drawUnits() {
         Units units = new Units();
-        new Draw(units, unitsMap );
+        new Draw(units, unitsMap);
     }
 
     private void drawImprovements() {
@@ -90,7 +94,7 @@ public class GameMap extends GridPane {
         worldMap = initWorldMap();
         makeWorldMap(worldMap);
 
-        viewport.setViewport(focus);
+        viewport.setViewport(topLeftCorner);
 
         initTiling();
         makeGrid();
@@ -106,21 +110,53 @@ public class GameMap extends GridPane {
         return worldMap;
     }
 
-    private void makeTile(Tile tile, String unit, int x, int y) {
+    private void makeTile(Tile tile, int x, int y) {
         Label label = tile.label;
         label.setMinSize(tileSize, tileSize);
-        label.setStyle(GameStats.colorMap[x][y]);
+        label.setStyle(getColorMapElement());//
         label.setTextFill(Color.BLACK);
         label.setText(improvementsMap[x][y]);
-        label.setText(unit);
         tile.label = label;
+    }
+
+    private String getColorMapElement() {
+        String s = colorLandscape();
+        return s;
+    }
+
+    private String[][] makeMap() {
+        String[][] landscape = new String[GameStats.maxX][GameStats.maxY];
+        for (int x = 0; x < GameStats.maxX; x++) {
+            for (int y = 0; y < GameStats.maxY; y++) {
+                String color = colorLandscape();
+                landscape[x][y] = color;
+            }
+        }
+        GameStats.colorMap = landscape;
+        return landscape;
+    }
+
+    private String colorLandscape() {
+        int color = getRandomLandIndex();
+        //System.out.println(""+color+lands[color]);
+        return lands[color];
+    }
+
+    private int getRandomLandIndex() {
+        return (int) Math.floor(Math.random() * (lands.length - 2)) + 2;
+    }
+
+    private void addUnit(Tile tile, String unit) {
+        Label label = tile.label;
+        label.setText(unit);
     }
 
     private void makeWorldMap(Tile[][] worldMap) {
         String[][] unitsMap = makeUnitsMap();
         for (int x = 0; x < GameStats.maxX; x++) {
             for (int y = 0; y < GameStats.maxY; y++) {
-                makeTile(worldMap[x][y], unitsMap[x][y], x, y);
+                makeTile(worldMap[x][y], x, y);
+                addUnit(worldMap[x][y], unitsMap[x][y]);
             }
         }
     }
@@ -174,17 +210,13 @@ public class GameMap extends GridPane {
     public GridPane getMap() {
         return this;
     }
-    
+
     Coordinate getDiff() {
         return diff;
     }
 
     void setDiff() {
         diff = new Coordinate(0, 0);
-    }
-
-    Coordinate getFocus() {
-        return focus;
     }
 
     String[][] getColorMapSelection() {
@@ -228,6 +260,7 @@ public class GameMap extends GridPane {
                             break;
                         case SHIFT:
                             mapShift = !mapShift;
+                            cursorFrame.setFocusTile();
                             break;
                     }
 
@@ -245,18 +278,10 @@ public class GameMap extends GridPane {
                 private void moveMap() {
                     selectionX = topLeftCorner.x;
                     selectionY = topLeftCorner.y;
-                    Bounds bounds = new Bounds( selectionX,
-                            selectionY);
+                    Bounds bounds = new Bounds(selectionX, selectionY);
                     if (bounds.isWithin()) {
                         System.out.println("in bounds");
-                        Coordinate n =
-                                GameMap.this.viewport.getNewTopLeftCorner
-                                        (topLeftCorner);
-                        topLeftCorner = new Coordinate(n.x,
-                                n.y);
-                        GameMap.this.viewport.setViewport(topLeftCorner);
-                        GameMap.this.initTiling();
-                        GameMap.this.makeGrid();
+
                     } else {
                         System.out.println("outside" +
                                 selectionX +
@@ -266,10 +291,15 @@ public class GameMap extends GridPane {
                                 "   " +
                                 limitY
                         );
-                        GameMap.this.viewport.redrawViewPort(topLeftCorner);
-                        GameMap.this.initTiling();
-                        GameMap.this.makeGrid();
                     }
+                    //whats happening: here change the value of topLeftCorner?
+                    Coordinate n = GameMap.this.viewport.
+                            getNewTopLeftCorner(topLeftCorner);
+                    topLeftCorner = new Coordinate(n.x, n.y);
+                    //??ERROR perhaps
+                    GameMap.this.viewport.setViewport(topLeftCorner);
+                    GameMap.this.initTiling();
+                    GameMap.this.makeGrid();
                 }
             });
         }

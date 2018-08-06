@@ -4,12 +4,11 @@ import com.simciv.Coordinate;
 import com.simciv.GameStats;
 
 import static com.simciv.GameStats.START;
-import static com.simciv.Graphics.Colors.*;
 
 public class Viewport {
     static int maxX = 15;
     static int maxY = 12;
-    String[][] landscape ;
+    private String[][] landscape ;
     int diffX;
     int diffY;
     private GameMap gameMap;
@@ -21,52 +20,33 @@ public class Viewport {
         landscape = makeViewport();
     }
 
-    void redrawViewPort(Coordinate topLeftCorner) {
-        for (int x = 0; x < maxX; x++) {
-            for (int y = 0; y < maxY; y++) {
-                String s;
-                Bounds bounds = new Bounds(
-                        topLeftCorner.x + x,
-                        topLeftCorner.y + y);
-                if (bounds.isWithin()) {
-                    s = gameMap.viewport.landscape[topLeftCorner.x + x][topLeftCorner.y + y];
-                    gameMap.colorMapSelection[x][y] = s;
-                } else {
-                    System.out.println("erroneous numbers!!!!");
-                }
-            }
-        }
-    }
-
     private void resetDifference() {
-        gameMap.viewport.diffX = 0;
-        gameMap.viewport.diffY = 0;
+        this.diffX = 0;
+        this.diffY = 0;
     }
 
     /**
      * @return the array for the landscape map colors
+     *
      */
     private String[][] makeViewport() {
         String[][] landscape = new String[GameStats.maxX][GameStats.maxY];
         for (int x = 0; x < Viewport.maxX; x++) {
             for (int y = 0; y < Viewport.maxY; y++) {
-                String color = colorLandscape();
+                String color = colorLandscape(x, y);
                 landscape[x][y] = color;
             }
         }
-        GameStats.colorMap = landscape;
         return landscape;
     }
 
-    private String colorLandscape() {
-        int color = getRandomLandIndex();
-        System.out.println(""+color+lands[color]);
-        return lands[color];
+    private String colorLandscape(int x, int y) {
+        String color = GameStats.colorMap[x][y];//not assigned yet?
+        //System.out.println(""+color);
+        return color;
     }
 
-    private int getRandomLandIndex() {
-        return (int) Math.floor(Math.random() * (lands.length - 2)) + 2;
-    }
+
 
     void setViewport(Coordinate start) {
         for (int x = 0; x < maxX; x++) {
@@ -83,6 +63,13 @@ public class Viewport {
                 }
             }
         }
+    }
+
+    public String[][] getLandscape() {
+        if(landscape[0][0].equals("")){
+            System.out.println("Error an empty landscape");
+        }
+        return landscape;
     }
 
     Coordinate getNewTopLeftCorner(Coordinate f) {
