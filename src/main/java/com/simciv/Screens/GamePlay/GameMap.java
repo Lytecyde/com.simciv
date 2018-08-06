@@ -22,9 +22,10 @@ public class GameMap extends GridPane {
             new Tile[GameStats.maxX][GameStats.maxY];
     private CursorFrame cursorFrame;
     private Tile[][] worldMap = new Tile[GameStats.maxX][GameStats.maxY];
+    //TODO refactor cMS into the Tile class???
     String[][] colorMapSelection = new String[GameStats.maxX][GameStats.maxY];
     private Coordinate diff = new Coordinate(0, 0);
-    Viewport viewport;
+    private Viewport viewport;
     private int tileSize = 35;
     private Coordinate topLeftCorner =
             new Coordinate(GameStats.START.x, GameStats.START.y);
@@ -219,10 +220,6 @@ public class GameMap extends GridPane {
         diff = new Coordinate(0, 0);
     }
 
-    String[][] getColorMapSelection() {
-        return colorMapSelection;
-    }
-
     Viewport getViewport() {
         return viewport;
     }
@@ -241,6 +238,8 @@ public class GameMap extends GridPane {
 
                 //@Override
                 public void handle(KeyEvent event) {
+                    diff.x = 0;
+                    diff.y = 0;
                     switch (event.getCode()) {
                         case UP:
                             diff.y = -1;
@@ -293,15 +292,19 @@ public class GameMap extends GridPane {
                         );
                     }
                     //whats happening: here change the value of topLeftCorner?
-                    Coordinate n = GameMap.this.viewport.
-                            getNewTopLeftCorner(topLeftCorner);
-                    topLeftCorner = new Coordinate(n.x, n.y);
-                    //??ERROR perhaps
-                    GameMap.this.viewport.setViewport(topLeftCorner);
+                    Coordinate n = getMovedTopLeftCorner();
+                    GameMap.this.viewport.setViewport(n);
                     GameMap.this.initTiling();
                     GameMap.this.makeGrid();
                 }
             });
+        }
+
+        private Coordinate getMovedTopLeftCorner() {
+            Viewport vp = GameMap.this.viewport;
+            Coordinate n = vp.getNewTopLeftCorner(topLeftCorner);
+            topLeftCorner = new Coordinate(n.x, n.y);
+            return n;
         }
 
     }

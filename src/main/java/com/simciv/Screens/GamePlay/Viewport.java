@@ -41,8 +41,7 @@ public class Viewport {
     }
 
     private String colorLandscape(int x, int y) {
-        String color = GameStats.colorMap[x][y];//not assigned yet?
-        //System.out.println(""+color);
+        String color = GameStats.colorMap[x][y];
         return color;
     }
 

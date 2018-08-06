@@ -10,15 +10,13 @@ class CursorFrame {
     CursorFrame(GameMap gameMap) {
         this.gameMap = gameMap;
         landscapeAtViewport = this.gameMap.getViewport().getLandscape();
-        //setFocusTile();
         tiling = gameMap.getTiling();
     }
 
     void setFocusTile() {
         int x = GameStats.CENTER.x;
         int y = GameStats.CENTER.y;
-        tiling[x][y].label.setStyle(
-               landscapeAtViewport[x][y] +
+        tiling[x][y].label.setStyle(landscapeAtViewport[x][y] +
                         "-fx-border-color: white;");
     }
 
